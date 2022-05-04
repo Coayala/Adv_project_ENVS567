@@ -2,6 +2,7 @@ fig:exp-da
 fig:unnamed-chunk-4
 fig:volcano-da
 fig:nicro
+fig:volcano-de
 introduction
 differential-abundance-analysis-da-in-metabolomics
 differential-expression-analysis-de-in-metatranscriptomics

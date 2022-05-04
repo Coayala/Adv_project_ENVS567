@@ -80,7 +80,7 @@ datatable(as.data.frame(res),
 
 Just like differential abundance, volcano plots are great to explore differential expression results. Volcano plots will be obtained again using the `plot_volcano()` function.
 
-```{r r volcano-de, fig.align='center',fig.cap='Volcano plot of transcriptomics data'}
+```{r volcano-de, fig.align='center',fig.cap='Volcano plot of transcriptomics data'}
 res_df <- as.data.frame(res) %>% 
   rownames_to_column(var = 'FeatureID') %>% 
   drop_na()
