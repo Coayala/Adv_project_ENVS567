@@ -1,0 +1,150 @@
+# (PART) Differential Abundance (DA) {-}
+
+# Metabolomics data set
+
+The metabolomics data set used here was obtained from a soil incubation.
+
+The experimental design consisted on soil flasks that were incubated aerobically for up to 60 days. Half of the flasks received a water pulse at the start of the incubation. Four flasks were sacrificed at the start of the incubation (**T0**), one day after the water pulse (**T1**), 7 days after the water pulse (**T2**), 30 days after the water pulse (**T3**) and 60 days after the water pulse (**T4**).
+
+```{r exp-da, fig.align='center',fig.cap='Experimental design metabolomics data', echo=FALSE}
+knitr::include_graphics('img/exp_design.PNG')
+```
+
+Liquid-chromatography tandem mass spectrometry (LC-MS/MS) data was collected for each of the samples. Spectra data was processed with the software **Compound Discoverer** to generate the following compound abundances.
+
+```{r warning=FALSE, message=FALSE}
+library(tidyverse)
+library(DT)
+metabolite_abundance <- read_csv('data/metabolite_abundance.csv') %>% 
+  column_to_rownames(var = 'FeatureID')
+```
+
+```{r echo=FALSE}
+datatable(metabolite_abundance, 
+          caption = 'Metabolite abundance table',
+          options = list(scrollX = TRUE))
+```
+
+# Data Exploration and Normalization
+
+The first step for differential abundance analysis is to explore the data and select the best normalization method, which will be achieved using some [custom functions](#nomr-func).
+
+## Exploring multiple normalization methods
+
+Data can be normalized in multiple ways, normalization methods presented here include:
+- Global sum normalization
+- Median normalization
+- Mean Normalization
+- VSN Normalization
+- Cyclic LOESS Normalization
+
+The custom function `normalize_by_all()` will apply all the normalizations and will log-transform the data
+
+```{r fig.align='center', fig.cap='Normalization methods'}
+library(ggpubr)
+source('data/functions_da.R')
+
+normalize_by_all(metabolite_abundance)
+```
+
+From the plot the best normalization method seem to be either **VSN** or **cyclic LOESS**.
+
+## Normalizing data
+
+```{r}
+norm_abundances <- cycloess.norm(metabolite_abundance)
+```
+
+# Calculating differential abundance (DA) table
+
+Differential abundance of the metabolite data will also be done using [custom functions]{#diff-abun}.
+
+## Getting vectors with samples per each treatment group
+
+Samples from time **T0** will be used as control to compare the samples from all other time points of the two treatments: Water pulse (WP) and control (CTR).
+
+Sample information will be loaded from a `.csv` table.
+
+```{r warning=FALSE,message=FALSE}
+metadata <- read_csv('data/metadata.csv')
+```
+
+```{r echo=FALSE}
+datatable(metadata,
+          caption = 'Sample information')
+```
+
+## Generating table with differential abundances per feature
+
+Using the function `get_diff_table()` to calculate differential abundance between the different sample groups. This function will calculate the log2FoldChange (*log2FC*) for each feature as well as a *p-value* and *adjusted p-value*.
+
+Because multiple comparisons are needed, nested `for()` loops will be used
+
+```{r}
+# Samples at T0
+control_samples <- metadata %>% 
+  filter(time == 'T0') %>% 
+  pull(SampleID)
+
+# Initializing a df to store the results
+diff_table <- as.data.frame(matrix(nrow = 0, ncol = 7))
+
+for(treat in c('WP', 'CTR')){
+  for(t in c('T1', 'T2', 'T3', 'T4')){
+    treatment_samples <- metadata %>% 
+      filter(treatment == treat,
+             time == t) %>% 
+      pull(SampleID)
+    
+    temp_diff_table <- get_diff_table(norm_abundances,
+                                      control.sample_list = control_samples,
+                                      treatment.sample_list = treatment_samples,
+                                      log2_transformed = TRUE) %>% 
+      mutate(comparison = paste0('T0_vs_', treat, '_', t))
+    
+    diff_table <- rbind(diff_table, temp_diff_table)
+    
+  }
+}
+```
+
+```{r echo=FALSE}
+datatable(diff_table, 
+          caption = 'Differential expression table for all the comparisons',
+          options = list(scrollX = TRUE))
+```
+
+# Plotting differential abundance data
+
+A couple of plots to explore differential abundance data are generated using additional [custom functions](#plot-label)
+
+## Volcano plots
+
+Volcano plots are used to visualize the up- and downregulated features identified during the differential abundance analysis. Volcanos will be obtained using the `plot_volcano()` custom function.
+Because there are multiple comparisons a `for()` loop will be used to generate multiple volcano plots that will be arranged together with `ggarrange()`.
+
+```{r volcano-da, fig.align='center',fig.cap='Volcano plots of metabolite data'}
+library(ggpubr)
+plot_list <- list()
+
+for(comp in unique(diff_table$comparison)){
+  volcano_plot <- diff_table %>% 
+  filter(comparison == comp) %>% 
+  plot_volcano(.,
+               column_with_log2FC = log2FC,
+               column_with_pval = pval.adj,
+               log2FC.threshold = 1,
+               pval.threshold = 0.05) +
+    scale_x_continuous(limits = c(-8, 8)) +
+    scale_y_continuous(limits = c(0, 3.5)) +
+    labs(title = comp)
+  
+  plot_list[[length(plot_list) + 1]] <- volcano_plot
+}
+
+ggarrange(plotlist = plot_list, ncol = 4, nrow = 2, common.legend = TRUE, legend = 'bottom')
+```
+
+
+
+

@@ -1,0 +1,13 @@
+{
+	"n_targets": 61290,
+	"n_bootstraps": 500,
+	"n_processed": 23638876,
+	"n_pseudoaligned": 22470561,
+	"n_unique": 11443320,
+	"p_pseudoaligned": 95.1,
+	"p_unique": 48.4,
+	"kallisto_version": "0.46.2",
+	"index_version": 10,
+	"start_time": "Fri Jun 19 10:30:31 2020",
+	"call": "kallisto quant -i Nicropus_kallisto -t 32 -b 500 -o kallisto_Npus-counts/MPF3/ -t 32 ../raw_reads/MPF3/MPF3_1.fq.gz ../raw_reads/MPF3/MPF3_2.fq.gz"
+}

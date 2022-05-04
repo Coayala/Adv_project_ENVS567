@@ -1,0 +1,100 @@
+# (PART) Differential Expression (DE) {-}
+
+# Transcriptomics data set
+
+The transcriptomics dataset comes from a subset of the data from [@ayala2021effect] which includes only male *Nicrophorus pustulatus* under starved and fed conditions.
+
+```{r nicro, fig.align='center',fig.cap='Burying beetle (Nicrophorus pustulatus). Photo by Chris Joll (2018)', echo=FALSE}
+knitr::include_graphics('img/nicrophorus.jpg')
+```
+
+Because there was no reference genome for *Nicrophorus pustulatus*, mRNA reads counts were obtained using the pseudoaligner *Kallisto* [@bray2016near]
+
+## Importing kallisto pseudocount data
+
+Kallisto pseudocounts are loaded using the package `tximport`.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tximport)
+library(readr)
+
+metadata <- read_csv('data/metadata_nicrophorus.csv')
+files <- file.path('data', 'nicrophorus_counts', metadata$SampleID, "abundance.h5")
+names <- metadata$SampleID
+
+txi.kallisto <- tximport(files, type = 'kallisto', txOut = TRUE)
+```
+
+# Differential expression analysis with `DESeq2`
+
+Here is a quick example of the use of `DESeq2` for differential expression analysis.
+
+## Loading data for `DESeq2`
+
+A `DESeqDataSet` object is required for all the following steps.
+
+```{r warning=FALSE, message=FALSE}
+library(DESeq2)
+
+rownames(metadata) <- metadata$SampleID
+
+dds <- DESeqDataSetFromTximport(txi = txi.kallisto,
+                                colData = metadata,
+                                design = ~ treatment)
+```
+
+## Filtering out underrepresented transcripts
+
+Transcripts with too few counts are filtered out. The function `relevel()` is used to set up which group is the control
+
+```{r}
+dds <- dds[rowSums(counts(dds)) >= 10,]
+dds$treatment <- relevel(dds$treatment, ref = 'starved')
+```
+
+## Running DESEq2
+
+The main pipeline of `DESeq2`, including their own **data normalization** step is run using the `DESeq()` function.
+
+```{r message=FALSE, warning=FALSE}
+dds <- DESeq(dds)
+```
+
+Exporting results
+
+```{r}
+res <- results(dds)
+
+summary(res)
+```
+
+
+```{r}
+datatable(as.data.frame(res),
+          caption = 'Differential expression results using DESeq2',
+          options = list(scrollX = TRUE))
+```
+
+# Plotting
+
+Just like differential abundance, volcano plots are great to explore differential expression results. Volcano plots will be obtained again using the `plot_volcano()` function.
+
+```{r r volcano-de, fig.align='center',fig.cap='Volcano plot of transcriptomics data'}
+res_df <- as.data.frame(res) %>% 
+  rownames_to_column(var = 'FeatureID') %>% 
+  drop_na()
+
+volcano <- plot_volcano(res_df,
+                        column_with_log2FC = log2FoldChange,
+                        column_with_pval = padj,
+                        log2FC.threshold = 2,
+                        pval.threshold = 0.05)
+
+volcano
+```
+
+
+
+
+

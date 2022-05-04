@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Metabolomics data set | ENVS 567 - Advanced Project</title>
+  <meta name="description" content="<p>This is a book containing the code and explanations of the Advanced Project
+for the ENVS 567 class.</p>" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Metabolomics data set | ENVS 567 - Advanced Project" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a book containing the code and explanations of the Advanced Project
+for the ENVS 567 class.</p>" />
+  <meta name="github-repo" content="Coayala/Adv_project_ENVS567" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Metabolomics data set | ENVS 567 - Advanced Project" />
+  
+  <meta name="twitter:description" content="<p>This is a book containing the code and explanations of the Advanced Project
+for the ENVS 567 class.</p>" />
+  
+
+<meta name="author" content="Christian Ayala" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="custom-functions.html"/>
+<link rel="next" href="a-new-chapter.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">ENVS 567 - Advanced Project</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#differential-abundance-analysis-da-in-metabolomics"><i class="fa fa-check"></i><b>1.1</b> Differential abundance analysis (DA) in <em>metabolomics</em></a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#differential-expression-analysis-de-in-metatranscriptomics"><i class="fa fa-check"></i><b>1.2</b> Differential expression analysis (DE) in <em>meta/transcriptomics</em></a></li>
+</ul></li>
+<li class="part"><span><b>I Differential Abundance (DA) of <em>metabolomics</em> data</b></span></li>
+<li class="chapter" data-level="2" data-path="metabolomics-data-set.html"><a href="metabolomics-data-set.html"><i class="fa fa-check"></i><b>2</b> Metabolomics data set</a></li>
+<li class="part"><span><b>II Extra</b></span></li>
+<li class="chapter" data-level="3" data-path="custom-functions.html"><a href="custom-functions.html"><i class="fa fa-check"></i><b>3</b> Custom functions</a></li>
+<li class="part"><span><b>III Differential Abundance (DA) of <em>metabolomics</em> data</b></span></li>
+<li class="chapter" data-level="4" data-path="metabolomics-data-set-1.html"><a href="metabolomics-data-set-1.html"><i class="fa fa-check"></i><b>4</b> Metabolomics data set</a></li>
+<li class="chapter" data-level="5" data-path="a-new-chapter.html"><a href="a-new-chapter.html"><i class="fa fa-check"></i><b>5</b> A new chapter</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">ENVS 567 - Advanced Project</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="metabolomics-data-set-1" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Metabolomics data set<a href="metabolomics-data-set-1.html#metabolomics-data-set-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The metabolomics data set used here was obtained from a soil incubation.</p>
+<p>The experimental design consisted on soil flasks that were incubated aerobically for up to 60 days. Half of the flasks received a water pulse at the start of the incubation. Four flasks were sacrificed at the start of the incubation (<strong>T0</strong>), one day after the water pulse (<strong>T1</strong>), 7 days after the water pulse (<strong>T2</strong>), 30 days after the water pulse (<strong>T3</strong>) and 60 days after the water pulse (<strong>T4</strong>).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:exp-da"></span>
+<img src="img/exp_design.PNG" alt="Experimental design metabolomics data" width="316" />
+<p class="caption">
+Figure 4.1: Experimental design metabolomics data
+</p>
+</div>
+<p>Liquid-chromatography tandem mass spectrometry (LC-MS/MS) data was collected for each of the samples. Spectra data was processed with the software <strong>Compound Discoverer</strong> to generate the following compound abundances.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="metabolomics-data-set-1.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="metabolomics-data-set-1.html#cb1-2" aria-hidden="true" tabindex="-1"></a>metabolite_abundance <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;data/metabolite_abundance.csv&#39;</span>)</span></code></pre></div>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-2">Table 4.1: </span>Metabolite abundances (partial)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+FeatureID
+</th>
+<th style="text-align:right;">
+RP_S37
+</th>
+<th style="text-align:right;">
+RP_S38
+</th>
+<th style="text-align:right;">
+RP_S39
+</th>
+<th style="text-align:right;">
+RP_S40
+</th>
+<th style="text-align:right;">
+RP_S41
+</th>
+<th style="text-align:right;">
+RP_S42
+</th>
+<th style="text-align:right;">
+RP_S43
+</th>
+<th style="text-align:right;">
+RP_S44
+</th>
+<th style="text-align:right;">
+RP_S45
+</th>
+<th style="text-align:right;">
+RP_S46
+</th>
+<th style="text-align:right;">
+RP_S47
+</th>
+<th style="text-align:right;">
+RP_S48
+</th>
+<th style="text-align:right;">
+RP_S49
+</th>
+<th style="text-align:right;">
+RP_S50
+</th>
+<th style="text-align:right;">
+RP_S51
+</th>
+<th style="text-align:right;">
+RP_S52
+</th>
+<th style="text-align:right;">
+RP_S53
+</th>
+<th style="text-align:right;">
+RP_S54
+</th>
+<th style="text-align:right;">
+RP_S55
+</th>
+<th style="text-align:right;">
+RP_S56
+</th>
+<th style="text-align:right;">
+RP_S57
+</th>
+<th style="text-align:right;">
+RP_S58
+</th>
+<th style="text-align:right;">
+RP_S59
+</th>
+<th style="text-align:right;">
+RP_S60
+</th>
+<th style="text-align:right;">
+RP_S61
+</th>
+<th style="text-align:right;">
+RP_S62
+</th>
+<th style="text-align:right;">
+RP_S63
+</th>
+<th style="text-align:right;">
+RP_S64
+</th>
+<th style="text-align:right;">
+RP_S65
+</th>
+<th style="text-align:right;">
+RP_S66
+</th>
+<th style="text-align:right;">
+RP_S67
+</th>
+<th style="text-align:right;">
+RP_S68
+</th>
+<th style="text-align:right;">
+RP_S69
+</th>
+<th style="text-align:right;">
+RP_S70
+</th>
+<th style="text-align:right;">
+RP_S71
+</th>
+<th style="text-align:right;">
+RP_S72
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Feature0272
+</td>
+<td style="text-align:right;">
+57135667.4
+</td>
+<td style="text-align:right;">
+47317998.1
+</td>
+<td style="text-align:right;">
+80334265.4
+</td>
+<td style="text-align:right;">
+87431108.6
+</td>
+<td style="text-align:right;">
+19585984.3
+</td>
+<td style="text-align:right;">
+67595778.1
+</td>
+<td style="text-align:right;">
+35842406.5
+</td>
+<td style="text-align:right;">
+57769862.4
+</td>
+<td style="text-align:right;">
+84811348.5
+</td>
+<td style="text-align:right;">
+61104624.8
+</td>
+<td style="text-align:right;">
+40729532.3
+</td>
+<td style="text-align:right;">
+69010993.9
+</td>
+<td style="text-align:right;">
+80233743.2
+</td>
+<td style="text-align:right;">
+80519005.9
+</td>
+<td style="text-align:right;">
+44633973.9
+</td>
+<td style="text-align:right;">
+28952587.5
+</td>
+<td style="text-align:right;">
+34866091.5
+</td>
+<td style="text-align:right;">
+31070933.6
+</td>
+<td style="text-align:right;">
+49923780.8
+</td>
+<td style="text-align:right;">
+30536474.7
+</td>
+<td style="text-align:right;">
+44619648.8
+</td>
+<td style="text-align:right;">
+29082544.1
+</td>
+<td style="text-align:right;">
+43617144.1
+</td>
+<td style="text-align:right;">
+62642482.7
+</td>
+<td style="text-align:right;">
+43537462.2
+</td>
+<td style="text-align:right;">
+22720240.5
+</td>
+<td style="text-align:right;">
+45193600.2
+</td>
+<td style="text-align:right;">
+39894669.0
+</td>
+<td style="text-align:right;">
+12122035.7
+</td>
+<td style="text-align:right;">
+63874126.0
+</td>
+<td style="text-align:right;">
+105343827.1
+</td>
+<td style="text-align:right;">
+50997478.7
+</td>
+<td style="text-align:right;">
+52158651.3
+</td>
+<td style="text-align:right;">
+88168872.3
+</td>
+<td style="text-align:right;">
+127381836.6
+</td>
+<td style="text-align:right;">
+44690081.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0271
+</td>
+<td style="text-align:right;">
+19292527.1
+</td>
+<td style="text-align:right;">
+21233048.6
+</td>
+<td style="text-align:right;">
+19646406.9
+</td>
+<td style="text-align:right;">
+18571825.0
+</td>
+<td style="text-align:right;">
+22317824.0
+</td>
+<td style="text-align:right;">
+25099502.8
+</td>
+<td style="text-align:right;">
+26262886.7
+</td>
+<td style="text-align:right;">
+21551374.0
+</td>
+<td style="text-align:right;">
+29324954.2
+</td>
+<td style="text-align:right;">
+37051865.6
+</td>
+<td style="text-align:right;">
+43751922.4
+</td>
+<td style="text-align:right;">
+42409525.3
+</td>
+<td style="text-align:right;">
+30265991.6
+</td>
+<td style="text-align:right;">
+38189835.8
+</td>
+<td style="text-align:right;">
+29078665.8
+</td>
+<td style="text-align:right;">
+38730804.1
+</td>
+<td style="text-align:right;">
+43505543.4
+</td>
+<td style="text-align:right;">
+34124400.4
+</td>
+<td style="text-align:right;">
+35875027.9
+</td>
+<td style="text-align:right;">
+23627212.1
+</td>
+<td style="text-align:right;">
+8164446.5
+</td>
+<td style="text-align:right;">
+6218071.3
+</td>
+<td style="text-align:right;">
+5281028.1
+</td>
+<td style="text-align:right;">
+7657246.1
+</td>
+<td style="text-align:right;">
+6306236.1
+</td>
+<td style="text-align:right;">
+6203308.0
+</td>
+<td style="text-align:right;">
+4704201.6
+</td>
+<td style="text-align:right;">
+8558537.3
+</td>
+<td style="text-align:right;">
+7518780.8
+</td>
+<td style="text-align:right;">
+11778184.5
+</td>
+<td style="text-align:right;">
+6542255.4
+</td>
+<td style="text-align:right;">
+7071599.8
+</td>
+<td style="text-align:right;">
+6656905.2
+</td>
+<td style="text-align:right;">
+10474951.9
+</td>
+<td style="text-align:right;">
+7689300.5
+</td>
+<td style="text-align:right;">
+8804287.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0270
+</td>
+<td style="text-align:right;">
+49913381.4
+</td>
+<td style="text-align:right;">
+55561031.3
+</td>
+<td style="text-align:right;">
+47266759.2
+</td>
+<td style="text-align:right;">
+48400489.6
+</td>
+<td style="text-align:right;">
+63736647.0
+</td>
+<td style="text-align:right;">
+48703295.3
+</td>
+<td style="text-align:right;">
+58840882.6
+</td>
+<td style="text-align:right;">
+56516365.2
+</td>
+<td style="text-align:right;">
+60871151.0
+</td>
+<td style="text-align:right;">
+61241877.2
+</td>
+<td style="text-align:right;">
+71070878.5
+</td>
+<td style="text-align:right;">
+67597522.0
+</td>
+<td style="text-align:right;">
+71916653.1
+</td>
+<td style="text-align:right;">
+68156135.5
+</td>
+<td style="text-align:right;">
+71956191.6
+</td>
+<td style="text-align:right;">
+62218578.0
+</td>
+<td style="text-align:right;">
+68904057.8
+</td>
+<td style="text-align:right;">
+59962354.3
+</td>
+<td style="text-align:right;">
+65427127.9
+</td>
+<td style="text-align:right;">
+62017940.1
+</td>
+<td style="text-align:right;">
+28895220.9
+</td>
+<td style="text-align:right;">
+24092838.3
+</td>
+<td style="text-align:right;">
+24200158.8
+</td>
+<td style="text-align:right;">
+28251874.3
+</td>
+<td style="text-align:right;">
+30414987.1
+</td>
+<td style="text-align:right;">
+31059309.4
+</td>
+<td style="text-align:right;">
+26975329.0
+</td>
+<td style="text-align:right;">
+30191491.0
+</td>
+<td style="text-align:right;">
+29228509.5
+</td>
+<td style="text-align:right;">
+51116155.8
+</td>
+<td style="text-align:right;">
+28812493.2
+</td>
+<td style="text-align:right;">
+30346737.2
+</td>
+<td style="text-align:right;">
+35578293.5
+</td>
+<td style="text-align:right;">
+41498870.9
+</td>
+<td style="text-align:right;">
+28587244.2
+</td>
+<td style="text-align:right;">
+35110644.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0269
+</td>
+<td style="text-align:right;">
+35744174.6
+</td>
+<td style="text-align:right;">
+31579291.7
+</td>
+<td style="text-align:right;">
+32867239.7
+</td>
+<td style="text-align:right;">
+34732671.6
+</td>
+<td style="text-align:right;">
+43433026.0
+</td>
+<td style="text-align:right;">
+45687009.9
+</td>
+<td style="text-align:right;">
+43808553.6
+</td>
+<td style="text-align:right;">
+39523461.7
+</td>
+<td style="text-align:right;">
+49993363.1
+</td>
+<td style="text-align:right;">
+50292689.8
+</td>
+<td style="text-align:right;">
+55236810.2
+</td>
+<td style="text-align:right;">
+48310988.2
+</td>
+<td style="text-align:right;">
+51036016.6
+</td>
+<td style="text-align:right;">
+50942147.4
+</td>
+<td style="text-align:right;">
+54268236.5
+</td>
+<td style="text-align:right;">
+52943930.3
+</td>
+<td style="text-align:right;">
+64076032.8
+</td>
+<td style="text-align:right;">
+45223504.2
+</td>
+<td style="text-align:right;">
+50516395.2
+</td>
+<td style="text-align:right;">
+41836205.7
+</td>
+<td style="text-align:right;">
+14991521.8
+</td>
+<td style="text-align:right;">
+16862584.4
+</td>
+<td style="text-align:right;">
+16430131.6
+</td>
+<td style="text-align:right;">
+13180795.6
+</td>
+<td style="text-align:right;">
+14116881.6
+</td>
+<td style="text-align:right;">
+14014822.6
+</td>
+<td style="text-align:right;">
+10652792.8
+</td>
+<td style="text-align:right;">
+18110300.8
+</td>
+<td style="text-align:right;">
+12470889.5
+</td>
+<td style="text-align:right;">
+17847917.3
+</td>
+<td style="text-align:right;">
+11380748.9
+</td>
+<td style="text-align:right;">
+12539425.9
+</td>
+<td style="text-align:right;">
+11595149.6
+</td>
+<td style="text-align:right;">
+16497306.4
+</td>
+<td style="text-align:right;">
+13978747.2
+</td>
+<td style="text-align:right;">
+19146440.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0268
+</td>
+<td style="text-align:right;">
+1162365.0
+</td>
+<td style="text-align:right;">
+1156436.2
+</td>
+<td style="text-align:right;">
+1139621.1
+</td>
+<td style="text-align:right;">
+1370793.5
+</td>
+<td style="text-align:right;">
+1270169.1
+</td>
+<td style="text-align:right;">
+1220711.9
+</td>
+<td style="text-align:right;">
+1224270.8
+</td>
+<td style="text-align:right;">
+1342051.0
+</td>
+<td style="text-align:right;">
+1254216.2
+</td>
+<td style="text-align:right;">
+1155310.7
+</td>
+<td style="text-align:right;">
+1434085.7
+</td>
+<td style="text-align:right;">
+1407677.7
+</td>
+<td style="text-align:right;">
+1343072.9
+</td>
+<td style="text-align:right;">
+1252449.3
+</td>
+<td style="text-align:right;">
+1288017.4
+</td>
+<td style="text-align:right;">
+1182252.9
+</td>
+<td style="text-align:right;">
+1149054.8
+</td>
+<td style="text-align:right;">
+1143732.3
+</td>
+<td style="text-align:right;">
+1264843.7
+</td>
+<td style="text-align:right;">
+1185769.8
+</td>
+<td style="text-align:right;">
+1209667.7
+</td>
+<td style="text-align:right;">
+1088989.2
+</td>
+<td style="text-align:right;">
+1250178.1
+</td>
+<td style="text-align:right;">
+1116862.1
+</td>
+<td style="text-align:right;">
+1205666.7
+</td>
+<td style="text-align:right;">
+1412615.3
+</td>
+<td style="text-align:right;">
+1340581.8
+</td>
+<td style="text-align:right;">
+1255529.7
+</td>
+<td style="text-align:right;">
+1320422.2
+</td>
+<td style="text-align:right;">
+1223825.7
+</td>
+<td style="text-align:right;">
+1148586.4
+</td>
+<td style="text-align:right;">
+1066651.9
+</td>
+<td style="text-align:right;">
+1149077.1
+</td>
+<td style="text-align:right;">
+934177.4
+</td>
+<td style="text-align:right;">
+1055759.1
+</td>
+<td style="text-align:right;">
+985095.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0267
+</td>
+<td style="text-align:right;">
+1274771.7
+</td>
+<td style="text-align:right;">
+1268269.5
+</td>
+<td style="text-align:right;">
+1249828.3
+</td>
+<td style="text-align:right;">
+1503356.3
+</td>
+<td style="text-align:right;">
+1393001.1
+</td>
+<td style="text-align:right;">
+1338761.1
+</td>
+<td style="text-align:right;">
+1342664.1
+</td>
+<td style="text-align:right;">
+1471834.3
+</td>
+<td style="text-align:right;">
+1375505.4
+</td>
+<td style="text-align:right;">
+1267035.2
+</td>
+<td style="text-align:right;">
+1572769.2
+</td>
+<td style="text-align:right;">
+1543807.4
+</td>
+<td style="text-align:right;">
+1472955.1
+</td>
+<td style="text-align:right;">
+1373567.6
+</td>
+<td style="text-align:right;">
+1412575.3
+</td>
+<td style="text-align:right;">
+1296582.8
+</td>
+<td style="text-align:right;">
+1260174.3
+</td>
+<td style="text-align:right;">
+1254337.1
+</td>
+<td style="text-align:right;">
+1387160.7
+</td>
+<td style="text-align:right;">
+1300439.8
+</td>
+<td style="text-align:right;">
+1326648.9
+</td>
+<td style="text-align:right;">
+1194300.1
+</td>
+<td style="text-align:right;">
+1371076.7
+</td>
+<td style="text-align:right;">
+1224868.5
+</td>
+<td style="text-align:right;">
+1322260.9
+</td>
+<td style="text-align:right;">
+1549222.6
+</td>
+<td style="text-align:right;">
+1462527.6
+</td>
+<td style="text-align:right;">
+1376945.9
+</td>
+<td style="text-align:right;">
+1448113.8
+</td>
+<td style="text-align:right;">
+1342176.0
+</td>
+<td style="text-align:right;">
+1259660.6
+</td>
+<td style="text-align:right;">
+1169802.7
+</td>
+<td style="text-align:right;">
+1260198.8
+</td>
+<td style="text-align:right;">
+1024517.2
+</td>
+<td style="text-align:right;">
+1157856.4
+</td>
+<td style="text-align:right;">
+1080359.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0266
+</td>
+<td style="text-align:right;">
+591962.4
+</td>
+<td style="text-align:right;">
+589176.7
+</td>
+<td style="text-align:right;">
+486934.2
+</td>
+<td style="text-align:right;">
+570883.8
+</td>
+<td style="text-align:right;">
+727140.6
+</td>
+<td style="text-align:right;">
+645987.3
+</td>
+<td style="text-align:right;">
+636811.9
+</td>
+<td style="text-align:right;">
+573207.4
+</td>
+<td style="text-align:right;">
+625183.4
+</td>
+<td style="text-align:right;">
+577473.1
+</td>
+<td style="text-align:right;">
+629745.6
+</td>
+<td style="text-align:right;">
+608533.2
+</td>
+<td style="text-align:right;">
+704016.1
+</td>
+<td style="text-align:right;">
+622585.7
+</td>
+<td style="text-align:right;">
+681961.2
+</td>
+<td style="text-align:right;">
+562893.5
+</td>
+<td style="text-align:right;">
+620068.2
+</td>
+<td style="text-align:right;">
+503321.3
+</td>
+<td style="text-align:right;">
+575322.1
+</td>
+<td style="text-align:right;">
+640360.1
+</td>
+<td style="text-align:right;">
+495348.7
+</td>
+<td style="text-align:right;">
+557422.6
+</td>
+<td style="text-align:right;">
+562767.1
+</td>
+<td style="text-align:right;">
+578197.8
+</td>
+<td style="text-align:right;">
+579851.4
+</td>
+<td style="text-align:right;">
+671066.8
+</td>
+<td style="text-align:right;">
+570662.5
+</td>
+<td style="text-align:right;">
+693353.0
+</td>
+<td style="text-align:right;">
+670178.9
+</td>
+<td style="text-align:right;">
+550030.4
+</td>
+<td style="text-align:right;">
+701954.5
+</td>
+<td style="text-align:right;">
+626183.1
+</td>
+<td style="text-align:right;">
+555240.9
+</td>
+<td style="text-align:right;">
+585414.8
+</td>
+<td style="text-align:right;">
+522364.1
+</td>
+<td style="text-align:right;">
+612362.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0265
+</td>
+<td style="text-align:right;">
+594524.7
+</td>
+<td style="text-align:right;">
+591726.9
+</td>
+<td style="text-align:right;">
+489041.9
+</td>
+<td style="text-align:right;">
+573354.9
+</td>
+<td style="text-align:right;">
+730288.1
+</td>
+<td style="text-align:right;">
+648783.5
+</td>
+<td style="text-align:right;">
+639568.4
+</td>
+<td style="text-align:right;">
+575688.6
+</td>
+<td style="text-align:right;">
+627889.6
+</td>
+<td style="text-align:right;">
+579972.7
+</td>
+<td style="text-align:right;">
+632471.4
+</td>
+<td style="text-align:right;">
+611167.2
+</td>
+<td style="text-align:right;">
+707063.4
+</td>
+<td style="text-align:right;">
+625280.6
+</td>
+<td style="text-align:right;">
+684913.1
+</td>
+<td style="text-align:right;">
+565330.0
+</td>
+<td style="text-align:right;">
+622752.2
+</td>
+<td style="text-align:right;">
+505500.0
+</td>
+<td style="text-align:right;">
+577812.4
+</td>
+<td style="text-align:right;">
+643131.9
+</td>
+<td style="text-align:right;">
+497492.9
+</td>
+<td style="text-align:right;">
+559835.4
+</td>
+<td style="text-align:right;">
+565203.1
+</td>
+<td style="text-align:right;">
+580700.5
+</td>
+<td style="text-align:right;">
+582361.4
+</td>
+<td style="text-align:right;">
+673971.5
+</td>
+<td style="text-align:right;">
+573132.6
+</td>
+<td style="text-align:right;">
+696354.3
+</td>
+<td style="text-align:right;">
+673079.8
+</td>
+<td style="text-align:right;">
+552411.2
+</td>
+<td style="text-align:right;">
+704992.9
+</td>
+<td style="text-align:right;">
+628893.6
+</td>
+<td style="text-align:right;">
+557644.3
+</td>
+<td style="text-align:right;">
+587948.8
+</td>
+<td style="text-align:right;">
+524625.1
+</td>
+<td style="text-align:right;">
+615013.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0264
+</td>
+<td style="text-align:right;">
+39336954.4
+</td>
+<td style="text-align:right;">
+39235437.8
+</td>
+<td style="text-align:right;">
+32047786.5
+</td>
+<td style="text-align:right;">
+38814131.3
+</td>
+<td style="text-align:right;">
+58273959.0
+</td>
+<td style="text-align:right;">
+41637796.9
+</td>
+<td style="text-align:right;">
+35025642.7
+</td>
+<td style="text-align:right;">
+39737927.5
+</td>
+<td style="text-align:right;">
+53066110.1
+</td>
+<td style="text-align:right;">
+39839997.2
+</td>
+<td style="text-align:right;">
+52732956.4
+</td>
+<td style="text-align:right;">
+47027857.3
+</td>
+<td style="text-align:right;">
+54965584.8
+</td>
+<td style="text-align:right;">
+47304283.3
+</td>
+<td style="text-align:right;">
+44031704.3
+</td>
+<td style="text-align:right;">
+40829838.9
+</td>
+<td style="text-align:right;">
+43121424.0
+</td>
+<td style="text-align:right;">
+29970898.9
+</td>
+<td style="text-align:right;">
+41130152.1
+</td>
+<td style="text-align:right;">
+37443597.3
+</td>
+<td style="text-align:right;">
+33619215.0
+</td>
+<td style="text-align:right;">
+32942220.4
+</td>
+<td style="text-align:right;">
+37190486.5
+</td>
+<td style="text-align:right;">
+50621936.8
+</td>
+<td style="text-align:right;">
+29411227.9
+</td>
+<td style="text-align:right;">
+32717481.4
+</td>
+<td style="text-align:right;">
+56594232.4
+</td>
+<td style="text-align:right;">
+62929613.4
+</td>
+<td style="text-align:right;">
+107171495.5
+</td>
+<td style="text-align:right;">
+31166010.7
+</td>
+<td style="text-align:right;">
+66366611.1
+</td>
+<td style="text-align:right;">
+44728040.7
+</td>
+<td style="text-align:right;">
+31791674.2
+</td>
+<td style="text-align:right;">
+31992160.8
+</td>
+<td style="text-align:right;">
+25682766.3
+</td>
+<td style="text-align:right;">
+35170606.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Feature0263
+</td>
+<td style="text-align:right;">
+91300357.4
+</td>
+<td style="text-align:right;">
+103931744.2
+</td>
+<td style="text-align:right;">
+88917350.7
+</td>
+<td style="text-align:right;">
+79298929.3
+</td>
+<td style="text-align:right;">
+107165947.1
+</td>
+<td style="text-align:right;">
+112307210.6
+</td>
+<td style="text-align:right;">
+102826155.7
+</td>
+<td style="text-align:right;">
+74038784.8
+</td>
+<td style="text-align:right;">
+59156049.0
+</td>
+<td style="text-align:right;">
+45598610.5
+</td>
+<td style="text-align:right;">
+49437665.1
+</td>
+<td style="text-align:right;">
+42024049.0
+</td>
+<td style="text-align:right;">
+47108771.9
+</td>
+<td style="text-align:right;">
+60183942.3
+</td>
+<td style="text-align:right;">
+76650598.2
+</td>
+<td style="text-align:right;">
+49239484.6
+</td>
+<td style="text-align:right;">
+29558148.0
+</td>
+<td style="text-align:right;">
+46599391.0
+</td>
+<td style="text-align:right;">
+63376446.5
+</td>
+<td style="text-align:right;">
+59928181.8
+</td>
+<td style="text-align:right;">
+46902108.3
+</td>
+<td style="text-align:right;">
+40354513.7
+</td>
+<td style="text-align:right;">
+56805768.8
+</td>
+<td style="text-align:right;">
+43918785.2
+</td>
+<td style="text-align:right;">
+39272108.6
+</td>
+<td style="text-align:right;">
+32932776.3
+</td>
+<td style="text-align:right;">
+33174468.2
+</td>
+<td style="text-align:right;">
+46007200.5
+</td>
+<td style="text-align:right;">
+3981112.1
+</td>
+<td style="text-align:right;">
+8870621.7
+</td>
+<td style="text-align:right;">
+25369896.2
+</td>
+<td style="text-align:right;">
+33858768.1
+</td>
+<td style="text-align:right;">
+60991283.0
+</td>
+<td style="text-align:right;">
+63588047.6
+</td>
+<td style="text-align:right;">
+51188572.3
+</td>
+<td style="text-align:right;">
+47607383.1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="custom-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="a-new-chapter.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Coayala/Adv_project_ENVS567/edit/main/02-DE.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

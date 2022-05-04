@@ -1,55 +1,27 @@
 --- 
-title: "A Minimal Book Example"
-author: "John Doe"
-date: "`r Sys.Date()`"
+title: "ENVS 567 - Advanced Project"
+author: "Christian Ayala"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
-# cover-image: path to the social sharing image like images/cover.jpg
 description: |
-  This is a minimal example of using the bookdown package to write a book.
-  The HTML output format for this example is bookdown::gitbook,
-  set in the _output.yml file.
+  This is a book containing the code and explanations of the Advanced Project
+  for the ENVS 567 class.
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+github-repo: Coayala/Adv_project_ENVS567
 ---
 
-# About
+# Introduction
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$.
+My advanced project involves performing a **differential abundance analysis** of *metabolomics* data using simple *custom functions* as well as **differential expression** analysis of gene count data using the widely used r package [`DESeq2`](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) [@love2014moderated]. 
 
-## Usage 
+## Differential abundance analysis (DA) in *metabolomics*
 
-Each **bookdown** chapter is an .Rmd file, and each .Rmd file can contain one (and only one) chapter. A chapter *must* start with a first-level heading: `# A good chapter`, and can contain one (and only one) first-level heading.
+Differential abundance analysis in *metabolomics* and *proteomics* involves identifying which metabolites/proteins (features) have significantly different abundances between two experimental groups.
 
-Use second-level and higher headings within chapters like: `## A short section` or `### An even shorter section`.
+## Differential expression analysis (DE) in *meta/transcriptomics*
 
-The `index.Rmd` file is required, and is also your first book chapter. It will be the homepage when you render the book.
-
-## Render book
-
-You can render the HTML version of this example book without changing anything:
-
-1. Find the **Build** pane in the RStudio IDE, and
-
-1. Click on **Build Book**, then select your output format, or select "All formats" if you'd like to use multiple formats from the same book source files.
-
-Or build the book from the R console:
-
-```{r, eval=FALSE}
-bookdown::render_book()
-```
-
-To render this example to PDF as a `bookdown::pdf_book`, you'll need to install XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.org/tinytex/>.
-
-## Preview book
-
-As you work, you may start a local server to live preview this HTML book. This preview will update as you edit the book when you save individual .Rmd files. You can start the server in a work session by using the RStudio add-in "Preview book", or from the R console:
-
-```{r eval=FALSE}
-bookdown::serve_book()
-```
+Differential expression analysis for *meta/transcriptomics* involves taking the normalised read count data and performing statistical analysis to discover quantitative changes in expression levels between experimental groups.
 
 
 ```{r include=FALSE}
